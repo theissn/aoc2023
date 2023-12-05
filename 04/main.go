@@ -13,13 +13,27 @@ func main() {
 	file, _ := os.ReadFile("input")
 	pointSum := 0
 
-	for index, card := range strings.Split(string(file), "\n") {
+	// scrathCardMap := make(map[int]int)
+
+	// for i, _ := range strings.Split(string(file), "\n") {
+	// 	scrathCardMap[i+1] = 1
+	// }
+
+	cards := strings.Split(string(file), "\n")
+
+	sum := 0
+
+	countsOfCards := make([]int, len(cards))
+	for i := 0; i < len(cards); i++ {
+		countsOfCards[i] = 1
+	}
+
+	for cardI, card := range strings.Split(string(file), "\n") {
 		var goodNumbers []int
+		var winningNumbers []int
 
 		re := regexp.MustCompile(`Card\s+\d+:\s+`)
-
 		cleanString := re.ReplaceAllString(card, "")
-
 		numbers := strings.Split(cleanString, " | ")
 
 		for _, v := range strings.Split(numbers[0], " ") {
@@ -31,8 +45,6 @@ func main() {
 
 			goodNumbers = append(goodNumbers, num)
 		}
-
-		var winningNumbers []int
 
 		for _, v := range strings.Split(numbers[1], " ") {
 			num, err := strconv.Atoi(v)
@@ -49,9 +61,19 @@ func main() {
 		}
 
 		pointSum += getPoints(winningNumbers)
+
+		for io := 1; io <= len(winningNumbers); io++ {
+			countsOfCards[cardI+io] += countsOfCards[cardI]
+
+			fmt.Println(countsOfCards, countsOfCards[cardI+io], countsOfCards[cardI], cardI)
+		}
+
+		sum += countsOfCards[cardI]
 	}
 
 	fmt.Println("Sum part 1:", pointSum)
+
+	fmt.Println("Sum part 2:", sum)
 
 }
 
