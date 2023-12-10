@@ -12,9 +12,10 @@ import (
 func main() {
 	fmt.Println("Day 5")
 	println()
-//	fmt.Println("Sample")
-//	sample, _ := os.ReadFile("sample")
-//	puzzle(string(sample))
+
+	fmt.Println("Sample")
+	sample, _ := os.ReadFile("sample")
+	puzzle(string(sample))
 
 	println()
 
@@ -34,10 +35,11 @@ func puzzle(input string) {
 		seeds = append(seeds, num)
 	}
 
-//	partOneValue := seedMath(lines, seeds)
-//	fmt.Println("Part 1", partOneValue)
+	partOneValue := seedMath(lines, seeds)
+	fmt.Println("Part 1", partOneValue)
 
-	partTwoValue := seedMathPart2(lines, seeds)
+	// partTwoValue := SeedMathPart2(lines, seeds)
+	partTwoValue := "fuck if i know, i don't own enough ram to do that"
 	fmt.Println("Part 2", partTwoValue)
 }
 
@@ -78,63 +80,33 @@ func seedMath(lines []string, seeds []int) int {
 	return val
 }
 
-func seedMathPart2(lines []string, seeds []int) int {
+type rage struct {
+	x, y int
+}
+
+func SeedMathPart2(lines []string, seeds []int) int {
 	val := 0
 
-	var actualSeeds []int
+	var ranges []rage
 
 	for i, v := range seeds {
 		if (i % 2) != 0 {
 			continue
 		}
 
-        start := v
-        end := v + seeds[i + 1]
-
-        for ii := start; ii < end; ii++ {
-            fmt.Println(ii)
-        }
-
-        fmt.Println(len(actualSeeds))
-
-        panic("")
+		start := v
+		end := v + seeds[i+1]
+		ranges = append(ranges, rage{start, end})
 	}
 
+	for _, v := range ranges {
+		for _, v1 := range lines[1:] {
+			section := strings.Split(v1, "\n")
 
-
-//	for _, v := range lines[1:] {
-//		section := strings.Split(v, "\n")
-//		var newSeeds []int
-//
-//		for _, seed := range actualSeeds {
-//			found := false
-//
-//			for _, v := range section[1:] {
-//				numbers := strings.Split(v, " ")
-//				destNum, _ := strconv.Atoi(numbers[0])
-//				sourceNum, _ := strconv.Atoi(numbers[1])
-//				countNum, _ := strconv.Atoi(numbers[2])
-//
-//				if seed >= sourceNum && seed <= sourceNum+countNum && !found {
-//					newSeeds = append(newSeeds, destNum+(seed-sourceNum))
-//
-//					found = true
-//				}
-//			}
-//
-//			if !found {
-//				newSeeds = append(newSeeds, seed)
-//			}
-//		}
-//
-//		actualSeeds = newSeeds
-//		seedsForSorting := slices.Clone(actualSeeds)
-//		sort.Ints(seedsForSorting)
-//
-//		fmt.Println(seedsForSorting)
-//
-//		val = seedsForSorting[0]
-//	}
+			fmt.Println(v)
+			fmt.Println(section)
+		}
+	}
 
 	return val
 }
